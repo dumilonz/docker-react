@@ -1,0 +1,13 @@
+sudo: required
+# travis ci is automatically going to install a copy of docker
+services:
+    - docker
+
+# a series of setup/ steps before test suit is run/ project is deployed
+before_install:
+    - docker build -t dumilonz/docker-react -f Dockerfile.dev . 
+
+# script section contains all commands to run test suit
+script:
+    - docker run -e CI=true dumilonz/docker-react npm run test
+
