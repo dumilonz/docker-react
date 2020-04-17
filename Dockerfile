@@ -1,6 +1,7 @@
 # tag it as the builder phase. 
 # Everything below it is part of the builder
-FROM node:alpine as builder
+# FROM node:alpine as builder
+FROM node:alpine
 WORKDIR '/usr/app'
 COPY ./package.json .
 RUN npm install
@@ -16,4 +17,4 @@ FROM nginx
 EXPOSE 80
 # copy something from other phase (builder)
 # copied to location as indicated in docker hub for nginx image
-COPY --from=builder /usr/app/build /usr/share/nginx/html
+COPY --from=0 /usr/app/build /usr/share/nginx/html
