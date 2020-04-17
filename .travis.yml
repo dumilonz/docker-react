@@ -11,3 +11,21 @@ before_install:
 script:
     - docker run -e CI=true dumilonz/docker-react npm run test
 
+# indicate how travis CI must take code and deplopy to AWS
+deploy:
+    provider: elasticbeanstalk
+    region: "us-east-2"
+    app: "docker-react"
+    env: "DockerReact-env"
+    # travis CI take all files in Github repo and zip and  copy to S3 bucket.
+    # S3 bucket: harddrive on AWS
+    # Notifies elaticbeanstalk that there has been a new zip upload. Elastic reruns  its functions
+    bucket_name: "elasticbeanstalk-us-east-2-622542045500"
+    # same as app  name
+    bucket_path: "docker-react"
+    # only integrate  when push to master
+    on:
+        branch: master
+    # provide API keys to Travis to gain acces to AWS account
+    access_key_id: $AWS_ACCESS_KEY
+    secret_acces_key: $AWS_SECRET_KEY
